@@ -98,23 +98,23 @@ var col_style = {
 	fillOpacity: 0.25
 };
 // Crear variables para los GeoJSON
-var limite = L.geoJson(null, {
-	style: limite_style })
+var red = L.geoJson(null, {
+	style: red })
 //Variable para capa de la ubicación de capa de amigos
 var amigos = L.geoJson(null, { 
 	onEachFeature: function( feature, layer ){
 		layer.bindPopup( "<strong>" + feature.properties.Name + "</strong>")}
 		});
-//Variable con los hexagonos tematizados de la CDMX	  
-var cdmx = L.geoJson(null, {
+//Variable con las ciudades del SUN tematizadas	  
+var sun = L.geoJson(null, {
     style: function(feature){
       var fillColor,
           denpob = feature.properties.DenPob;
-      if ( denpob >  253.2304 ) fillColor = "#a50f15";
-      else if ( denpob > 177.13 ) fillColor = "#de2d26";
-      else if ( denpob > 112.24 ) fillColor = "#fb6a4a";
-      else if ( denpob > 51.76 ) fillColor = "#fcae91";
-      else if ( denpob > 0.03 ) fillColor = "#fee5d9";
+      if ( degree >  0.058252 ) fillColor = "#a50f15";
+      else if ( degree > 0.038835 ) fillColor = "#de2d26";
+      else if ( degree > 0.029126 ) fillColor = "#fb6a4a";
+      else if ( degree > 0.019417 ) fillColor = "#fcae91";
+      else if ( degree > 0.009709 ) fillColor = "#fee5d9";
       else fillColor = "#f7f7f7";  // no data
       return { color: "#999", weight: 0.5, fillColor: fillColor, fillOpacity: .5 };
     },
@@ -127,6 +127,7 @@ var cdmx = L.geoJson(null, {
     }
 };
 */
+	  
 // Variable para la red del metro tematizada	  
 var red_metro = L.geoJson(null, {
 	style: function(feature){
@@ -170,24 +171,14 @@ var tiendas =L.geoJson(null, {
 	});
 	  
 //Cargar el GeoJSON a las variables	    
-$.getJSON("GeoJson/CDMX_Hex.geojson", function (data) {
-	cdmx.addData(data)});
-$.getJSON("GeoJson/Limite_CDMX.geojson", function (data) {
-	limite.addData(data)});
-$.getJSON("GeoJson/Red_STCMetro.geojson", function (data) {
-	red_metro.addData(data)});	
-$.getJSON("GeoJson/Estaciones_STCMetro.geojson", function (data) {
-	est_metro.addData(data)});
-$.getJSON("GeoJson/Colonias.geojson", function (data) {
-	col.addData(data)});
-$.getJSON("GeoJson/tiendas.geojson", function (data) {
-	tiendas.addData(data)});	  
-$.getJSON("GeoJson/amigos.geojson", function (data) {
-	amigos.addData(data)});
+$.getJSON("GeoJson/red_simple.geojson", function (data) {
+	red.addData(data)});
+$.getJSON("GeoJson/sun.geojson", function (data) {
+	sun.addData(data)});
 	  
 //Ordenar las capas 
-est_metro.bringToFront();	  
-limite.bringToFront();
+red.bringToFront();	  
+sun.bringToFront();
 	
 // Inicialización del mapa
 var map = L.map('map', {
@@ -204,12 +195,8 @@ var baseMaps = {
 //Agrupar Overlay layers
 var overlays = {
    /* "Amigos": amigos,*/
-    "Tiendas": tiendas,	
-    "Estaciones SCT Metro": est_metro,
-    "Red SCT Metro": red_metro,
-    "Densidad poblacional": cdmx,
-    "Colonias": col,
     };
+	  
 //Agregar controlador al mapa
 L.control.layers(baseMaps, overlays).addTo(map);
 //Agregar escala metrica
