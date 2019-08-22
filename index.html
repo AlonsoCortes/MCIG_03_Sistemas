@@ -83,7 +83,7 @@ var col_style = {
 // Crear variables para los GeoJSON
 var limite = L.geoJson(null, {
 	style: limite_style })
-//Variable para capa de la ubicación de cada de amigos
+//Variable para capa de la ubicación de capa de amigos
 var amigos = L.geoJson(null, { 
 	onEachFeature: function( feature, layer ){
 		layer.bindPopup( "<strong>" + feature.properties.Name + "</strong>")}
@@ -168,14 +168,14 @@ $.getJSON("GeoJson/tiendas.geojson", function (data) {
 $.getJSON("GeoJson/amigos.geojson", function (data) {
 	amigos.addData(data)});
 	  
-//Ordenar las capas en orden
+//Ordenar las capas 
 est_metro.bringToFront();	  
 limite.bringToFront();
 	
 // Inicialización del mapa
 var map = L.map('map', {
-	center:[19.349519, -99.152265],
-	zoom:10,
+	center:[21.302757, -100.582469],
+	zoom:5,
 	layers:[light, limite]});
 //Agrupar capas base
 var baseMaps = {
