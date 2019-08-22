@@ -78,7 +78,7 @@ var red = L.geoJson(null, {
 	  
 //Variable con las ciudades del SUN tematizadas	  
 var sun = L.geoJson(null, {
-	pointToLayer: function (feat, 11){
+	pointToLayer: function (feat, latlng){
 		var var sun_style = {
 			radius: 8,
 			fillColor: "#ff7800",
@@ -86,7 +86,7 @@ var sun = L.geoJson(null, {
 			weight: 1,
 			opacity: 1,
 			fillOpacity: 0.8};
-		var featureForThisPoint = L.circleMarker(ll, styleForThisFeature);
+		var featureForThisPoint = L.circleMarker(latlng, styleForThisFeature);
 		return featureForThisPoint;
 	}
 })
