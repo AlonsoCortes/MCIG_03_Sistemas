@@ -78,13 +78,30 @@ var red = L.geoJson(null, {
 	  
 //Variable con las ciudades del SUN tematizadas	  
 var sun = L.geoJson(null, {
-	pointToLayer: function (feature, latlng){
-		return L.circleMaker (latlng, sun_style);
+	pointToLayer: function (feat, 11){
+		var var sun_style = {
+			radius: 8,
+			fillColor: "#ff7800",
+			color: "#000",
+			weight: 1,
+			opacity: 1,
+			fillOpacity: 0.8};
+		var featureForThisPoint = L.circleMarker(ll, styleForThisFeature);
+		return featureForThisPoint;
 	}
-});
-
+})
+		
 //var sun = L.geoJson(null, {
 //	style: sun_style });	  
+
+
+//var layer = L.geoJson(data, {
+//    pointToLayer: function(feat, ll) {
+//        var styleForThisFeature = minesStyle(feat);
+//        var featureForThisPoint = L.circleMarker(ll, styleForThisFeature);
+//        return featureForThisPoint;
+//    }
+//}).addTo(map)	  
 	  
 //L.geoJSON(someGeojsonFeature, {
 //	pointToLayer: function (feature, latlng) {
