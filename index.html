@@ -63,111 +63,28 @@ function highlightFeature(e) {
 }
 	  
 //Estilo para ciertas capas
-var limite_style = {
-    "fillOpacity": 0,
-    "color": "#414244",
-    "weight": 5,
-    "opacity": 1
-};
-var est_metro_style = {
-    radius: 3.5,
-    fillColor: "#FFFFFF",
-    color: "#000000",
-    weight: 1.5,
+var sun_style = {
+    radius: 8,
+    fillColor: "#ff7800",
+    color: "#000",
+    weight: 1,
     opacity: 1,
-    fillOpacity: 0.6
+    fillOpacity: 0.8
 };
 	  
-// Estilo para capa de tiendas con icono en particular	  
-var tiendas_style = L.icon({
-	iconUrl: 'Icon/dice.png',
-	iconSize: [22.5, 22.5],
-});
-	  
-function estiloIcon(feature, latlng) {
-	return L.marker(latlng, {
-		icon: tiendas_style
-	})
-};	  
-//Estilo colonias	  
-var col_style = {
-	fillcolor:"FFFFFF",
-	color: "#000000",
-	weight: 1,
-	opacity: 0.6,
-	fillOpacity: 0.25
-};
 // Crear variables para los GeoJSON
 var red = L.geoJson(null, {
-	style: red })
-//Variable para capa de la ubicación de capa de amigos
-var amigos = L.geoJson(null, { 
-	onEachFeature: function( feature, layer ){
-		layer.bindPopup( "<strong>" + feature.properties.Name + "</strong>")}
-		});
+	style: red });
+	  
 //Variable con las ciudades del SUN tematizadas	  
 var sun = L.geoJson(null, {
-    style: function(feature){
-      var fillColor,
-          degree = feature.properties.degree;
-      if ( degree >  0.058252 ) fillColor = "#a50f15";
-      else if ( degree > 0.038835 ) fillColor = "#de2d26";
-      else if ( degree > 0.029126 ) fillColor = "#fb6a4a";
-      else if ( degree > 0.019417 ) fillColor = "#fcae91";
-      else if ( degree > 0.009709 ) fillColor = "#fee5d9";
-      else fillColor = "#f7f7f7";  // no data
-      return { color: "#999", weight: 0.5, fillColor: fillColor, fillOpacity: .5 };
-    },
-	 onEachFeature: function( feature, layer ){
-      layer.bindPopup( "<strong>" + "Densidad" + "</strong><br/>" + feature.properties.DenPob + " habitantes por hectárea" )
-    }
-  }  );
-   /* onEachFeature: function( feature, layer ){
-      layer.bindPopup( "<strong>" + "Densidad" + "</strong><br/>+"feature.properties.DenPob + " habitantes por hectárea" )
-    }
-};
-*/
+	style: sun_style });
 	  
-// Variable para la red del metro tematizada	  
-var red_metro = L.geoJson(null, {
-	style: function(feature){
-		switch (feature.properties.Name){
-			case 'Línea 1': return {color:'#FEA3FF'};
-			case 'Línea 2': return {color:'#1446D6'};
-			case 'Línea 3': return {color:'#BCDA13'};
-			case 'Línea 4': return {color:'#86DADA'};
-			case 'Línea 5': return {color:'#F7FF00'};
-			case 'Línea 6': return {color:'#FF0000'};
-			case 'Línea 7': return {color:'#FFC100'};
-			case 'Línea 8': return {color:'#20AB1C'};
-			case 'Línea 9': return {color:'#854E0C'};
-			case 'Línea A': return {color:'#DE25F0'};
-			case 'Línea B': return {color:'#98D7BC'};
-			case 'Línea 12': return {color:'#E9CA04'};
-		}
-		},
-		onEachFeature: function( feature, layer ){
-      		layer.bindPopup( "<strong>" + "SCT Metro" + "</strong><br/>"+ feature.properties.Name)
-    }
-	});
 //Variable para las estaciones del metro
 var est_metro = L.geoJson(null, {
 	pointToLayer: function (feature, latlng) {return L.circleMarker(latlng, est_metro_style)},
 	onEachFeature: function( feature, layer ){
       	layer.bindPopup( "<strong>" + "SCT Metro" + "</strong><br/>" + feature.properties.Name )}
-	});
-//Variable para las colonias
-var col = L.geoJson(null, {
-	style: col_style, 
-	onEachFeature: function( feature, layer ){
-	layer.bindPopup( "<strong>" + "COLONIA" + "</strong><br/>"+
-	feature.properties.SETT_NAME + ", POBLACIÓN: " + feature.properties.Sum_POB1 + " HABITANTES" )}
-	});
-//Variable para las tiendas
-var tiendas =L.geoJson(null, {
-	pointToLayer: estiloIcon,
-	onEachFeature: function( feature, layer ){
-		layer.bindPopup( "<strong>" + feature.properties.Name + "</strong><br/>" + feature.properties.link)}
 	});
 	  
 //Cargar el GeoJSON a las variables	    
