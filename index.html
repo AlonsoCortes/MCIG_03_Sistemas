@@ -109,7 +109,7 @@ var amigos = L.geoJson(null, {
 var sun = L.geoJson(null, {
     style: function(feature){
       var fillColor,
-          denpob = feature.properties.DenPob;
+          degree = feature.properties.degree;
       if ( degree >  0.058252 ) fillColor = "#a50f15";
       else if ( degree > 0.038835 ) fillColor = "#de2d26";
       else if ( degree > 0.029126 ) fillColor = "#fb6a4a";
