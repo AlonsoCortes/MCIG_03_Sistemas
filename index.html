@@ -91,9 +91,11 @@ var est_metro = L.geoJson(null, {
 $.getJSON("GeoJson/red_simple.geojson", function (data) {
 	red.addData(data)});
 	  
-$.getJSON("GeoJson/sun.geojson",
+$.getJSON("GeoJson/sun.geojson",{
 	  pointToLayer:function (feature, latlng) {
-		return L.circleMaker(latlng, sun_style)}) 
+		return L.circleMaker(latlng, sun_style);
+	}
+}) 
 	
 //$.getJSON("GeoJson/sun.geojson", function (data) {
 //	sun.addData(data)});	  
