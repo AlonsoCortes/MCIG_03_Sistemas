@@ -61,11 +61,19 @@ function highlightFeature(e) {
 		layer.bringToFront();
 	}
 }
+// Estilo 
+var red_style = {
+    "fillOpacity": 0,
+    "color": "#727272",
+    "weight": 0.25,
+    "opacity": 1
+};	  
 	  
+  
 // Crear variables para los GeoJSON
 // Variable que contendra la red de l´íneas	  
 var red = L.geoJson(null, {
-	style:black });
+	style:red_style });
 	  
 //Variable con las ciudades del SUN tematizadas	  
 var sun = L.geoJson(null, {
