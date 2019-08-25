@@ -46,21 +46,23 @@ var light = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/ligh
 //Cargar capas GeoJSON
 
 	  
-//Interacción con la entidad, resaltarla	  
-function highlightFeature(e) {
-	var layer = e.target;
+// Control que muestra la información de la ciudad en la que esta el cursor
+var info = L.control();
 
-	layer.setStyle({
-		weight: 5,
-		color: '#666',
-		dashArray: '',
-		fillOpacity: 0.7
-	});
+info.onAdd = function (map) {
+	this._div = L.DomUtil.create('div', 'info');
+	this.update();
+	return this._div;
+};
 
-	if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-		layer.bringToFront();
-	}
-}
+info.update = function (props) {
+	this._div.innerHTML = '<h4>Sistema Urbano Nacional</h4>' +  (props ?
+		'<b>' + props.SUN_100_Es + '</b><br />' + props.Pob_2010 + ' habitantes'
+		: 'Selecciona una ciudad');
+};
+
+info.addTo(map);
+	  
 // Estilo 
 var red_style = {
     "fillOpacity": 0,
