@@ -75,13 +75,13 @@ var sun = L.geoJson(null, {
     style: function(feature){
       var fillColor,
           buff_m = feature.properties.buff_m;
-      if ( buff_m >  32000 ) fillColor = "#a50f15";
-      else if ( buff_m >  27000 ) fillColor = "#de2d26";
-      else if ( buff_m > 22000 ) fillColor = "#fb6a4a";
-      else if ( buff_m > 17000 ) fillColor = "#fcae91";
-      else if ( buff_m > 12000 ) fillColor = "#fee5d9";
+      if ( buff_m >  32000 ) fillColor = "#fde725";
+      else if ( buff_m >  27000 ) fillColor = "#5dc962";
+      else if ( buff_m > 22000 ) fillColor = "#20908d";
+      else if ( buff_m > 17000 ) fillColor = "#3a528b";
+      else if ( buff_m > 12000 ) fillColor = "#440154";
       else fillColor = "#f7f7f7";  // no data
-      return { color: "#999", weight: 0.5, fillColor: fillColor, fillOpacity: .5 };
+      return { color: "#999", weight: 0.5, fillColor: fillColor, fillOpacity: 0.9 };
     },
     
   }  );
