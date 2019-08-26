@@ -60,7 +60,7 @@
 
 	info.update = function (props) {
 		this._div.innerHTML = '<h4>Sistema Urbano Nacional</h4>' +  (props ?
-			'<b>' + props.name + '</b><br />' + props.Pob_2010 + ' habitantes'
+			'<b>' + props.NOM_LOC + '</b><br />' + props.Pob_2010 + ' habitantes'
 			: 'Selecciona una ciudad');
 	};
 
@@ -153,7 +153,7 @@ $.getJSON("GeoJson/red_simple.geojson", function (data) {
 	legend.onAdd = function (map) {
 
 		var div = L.DomUtil.create('div', 'info legend'),
-			grades = [0.010,0.019, 029, 0.39, 0.058,0.87],
+			grades = [0.010,0.019, 0.029, 0.39, 0.058,0.087],
 			labels = [],
 			from, to;
 
