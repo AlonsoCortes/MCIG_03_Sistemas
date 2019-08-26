@@ -137,7 +137,6 @@
 	
 	$.getJSON("GeoJson/sun_pol.geojson", function (data) {
 	sun.addData(data)});
-	
 //Archivo de la red
 
 var red_style = {
@@ -163,7 +162,7 @@ $.getJSON("GeoJson/red_simple.geojson", function (data) {
 			labels = [],
 			from, to;
 
-		for (var i = 0; i < grades.length; i++) {
+		for (var i = 0.010; i < grades.length; i++) {
 			from = grades[i];
 			to = grades[i + 1];
 
