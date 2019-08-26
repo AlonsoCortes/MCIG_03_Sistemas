@@ -74,11 +74,11 @@
 
 	// Obtener valor de acuerdo a una columna deseada 
 	function getColor(d) {
-		return d > 32000 ? '#fde725' :
-				d > 27000  ? '#5dc962' :
-				d > 22000  ? '#20908d' :
-				d > 17000  ? '#3a528b' :
-				d > 12000   ? '#440154' :
+		return d > 0.058 ? '#fde725' :
+				d > 0.038  ? '#5dc962' :
+				d > 0.028  ? '#20908d' :
+				d > 0.018  ? '#3a528b' :
+				d > 0.009   ? '#440154' :
 							'#FFEDA0';
 	}
 
@@ -89,7 +89,7 @@
 			color: 'white',
 			dashArray: '3',
 			fillOpacity: 0.8,
-			fillColor: getColor(feature.properties.buff_m)
+			fillColor: getColor(feature.properties.degree)
 		};
 	}
 
@@ -158,7 +158,7 @@ $.getJSON("GeoJson/red_simple.geojson", function (data) {
 	legend.onAdd = function (map) {
 
 		var div = L.DomUtil.create('div', 'info legend'),
-			grades = [0.010,0.019, 0.029, 0.39, 0.058,0.087],
+			grades = [0.010,0.019, 0.029, 0.39, 0.058],
 			labels = ['<strong> Índice de centralidad industrial </strong>'],
 			from, to;
 
