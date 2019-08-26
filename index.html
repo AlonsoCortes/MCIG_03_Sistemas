@@ -142,7 +142,7 @@ var red_style = {
 };
 
 var red = L.geoJson(null, {
-	style:red_style });
+	style:red_style }).addTo(map);
 	
 $.getJSON("GeoJson/red_simple.geojson", function (data) {
 	red.addData(data)});	
