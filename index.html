@@ -64,8 +64,8 @@
 	info.update = function (props) {
 		this._div.innerHTML = '<h4>Sistema Urbano Nacional</h4>' +  (props ?
 			'<b>' + props.NOM_LOC + '</b><br />' + props.Pob_2010 + ' habitantes'+'<br />'
-			+ '<b>'+'Índice de centralidad industrial: ' + props.degree +'</b><br />'
-			+'<b>'+ 'Índice de cercanía industrial: ' + props.closeness +</b>
+			 +'Índice de centralidad industrial: ' + props.degree +'</b><br />'
+			+ 'Índice de cercanía industrial: ' + props.closeness
 			: 'Selecciona una ciudad');
 	};
 
@@ -164,7 +164,7 @@ $.getJSON("GeoJson/red_simple.geojson", function (data) {
 
 		for (var i = 0; i < grades.length; i++) {
 			from = grades[i];
-			to = grades[i+1]-1;
+			to = grades[i+1];
 
 			labels.push(
 				'<i style="background:' + getColor(from + 1) + '"></i> ' +
