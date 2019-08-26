@@ -1,148 +1,162 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Diseño y modelado de problemas territoriales complejos</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta charset="utf-8">
+	
+	<title>Diseño y modelado de problemas territoriales complejos - Leaflet</title>
 
-  <!-- Cargar Leaflet: instructions at http://leafletjs.com/download.html -->
-<!-- Cargar .css -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.1.0/dist/leaflet.css"
-  integrity="sha384-Zh+y1U8o6/7ni8Mp8szvUfZjGeKKS10CGH3IlD6L1X+XwzYgQ1llOjw/Wslc0cma"
-  crossorigin="anonymous">
-<!-- Cargar .js -->
-  <script src="https://unpkg.com/leaflet@1.1.0/dist/leaflet.js"
-  integrity="sha384-6rCYjRgWDEI2RlZxiVihj1WIZB/uvFiRCGpavTVgFrSPDL0Bk1AiqCW+mmv5h0LP"
-  crossorigin="anonymous"></script>
-<!-- Cargar jquery -->
-    <script src="https://code.jquery.com/jquery-2.2.3.js"></script>
-  
-  <!-- Position the map and title with Cascading Style Sheet (.css) -->
-  <style>
-  body { margin:0; padding:0; }
-  #map { position: absolute; top:0; bottom:0; right:0; left:0; }
-  #map-title { position: relative; margin-top: 10px; margin-left: 50px; float: left; background: white; border: 2px solid rgba(0,0,0,0.2); padding: 6px 8px; font-family: Helvetica; font-weight: bold; font-size: 24px; z-index: 800; }
-  
-  </style>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js" integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin=""></script>
+
+
+	<style>
+		html, body {
+			height: 100%;
+			margin: 0;
+		}
+		#map {
+			width: 600px;
+			height: 400px;
+		}
+	</style>
+
+	<style>#map { width: 800px; height: 500px; }
+.info { padding: 6px 8px; font: 14px/16px Arial, Helvetica, sans-serif; background: white; background: rgba(255,255,255,0.8); box-shadow: 0 0 15px rgba(0,0,0,0.2); border-radius: 5px; } .info h4 { margin: 0 0 5px; color: #777; }
+.legend { text-align: left; line-height: 18px; color: #555; } .legend i { width: 18px; height: 18px; float: left; margin-right: 8px; opacity: 0.7; }</style>
 </head>
 <body>
 
-  <!-- Display the map and title with HTML division tags  -->
-  <div id="map-title">Diseño y modelado de problemas territoriales complejos</div>
-  <div id="map"></div>
+<div id='map'></div>
 
-  <!-- Create the map content with JavaScript (.js) -->
-  <script>
- //Crear variables para mapa base
-var transport = L.tileLayer('https://tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=346585a3594c4671979ebe96e8cf3a8d', {
-	attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-	apikey: '<346585a3594c4671979ebe96e8cf3a8d>',	maxZoom: 22});
-var EsriSat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'});
-var terrain = L.tileLayer('https://stamen-tiles.a.ssl.fastly.net/terrain/{z}/{x}/{y}.png', {
-    attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.'}); 
-var light = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a href="https://carto.com/attribution">CARTO</a>'});
-//Cargar capas GeoJSON
-	  
-// Estilo 
-var red_style = {
-    "fillOpacity": 0,
-    "color": "#727272",
-    "weight": .75,
-    "opacity": 1
-};	  
-	  
-  
-// Crear variables para los GeoJSON
-// Variable que contendra la red de l´íneas	  
-var red = L.geoJson(null, {
-	style:red_style });
-	  
-//Variable con las ciudades del SUN tematizadas	  
-var sun = L.geoJson(null, {
-    style: function(feature){
-      var fillColor,
-          buff_m = feature.properties.buff_m;
-      if ( buff_m >  32000 ) fillColor = "#fde725";
-      else if ( buff_m >  27000 ) fillColor = "#5dc962";
-      else if ( buff_m > 22000 ) fillColor = "#20908d";
-      else if ( buff_m > 17000 ) fillColor = "#3a528b";
-      else if ( buff_m > 12000 ) fillColor = "#440154";
-      else fillColor = "#f7f7f7";  // no data
-      return { color: "#999", weight: 1, fillColor: fillColor, fillOpacity: 0.75 };
-    },
-    
-  }  );
-		
-//Cargar el GeoJSON a las variables	    
-$.getJSON("GeoJson/red_simple.geojson", function (data) {
-	red.addData(data)});
-	  
-$.getJSON("GeoJson/sun_pol.geojson", function (data) {
-	sun.addData(data)});	  
+<script type="text/javascript" src="us-states.js"></script>
 
-//Ordenar las capas 
-red.bringToFront();	  
-sun.bringToFront();
-	
-// Inicialización del mapa
-var map = L.map('map', {
-	center:[23.925007, -101.044332],
-	zoom:5,
-	layers:[light, red, sun]});
-	  
-//Agrupar capas base
-var baseMaps = {
-"ESRI Satelite": EsriSat,
-"TF transporte": transport,
-"Stamen terrain": terrain,
-"Carto light": light,
-}
-//Agrupar Overlay layers
-var overlays = {
-   /* "Amigos": amigos,*/
-    };
-	  
-//Agregar controlador al mapa
-L.control.layers(baseMaps, overlays).addTo(map);
-//Agregar escala metrica
-L.control.scale().addTo(map);
-	  
-//Agregar leyenda
-function getColor(d) {
-	return d > 253 ? '#a50f15' :
-		d > 177  ? '#de2d26' :
-		d > 112  ? '#fb6a4a' :
-		d > 51  ? '##fcae91' :
-		d > 0   ? '#fee5d9' :
-	'#ffffff';
-}
-	  
-/* Good way to create custom control */
-L.LegendControl = L.Control.extend({
-	onAdd: function (map) {
-		var div = L.DomUtil.create('div', 'info legend');
-		var grades = [0, 51, 112, 177, 253];
-		var labels = [];
-		var from;
-		var to;
+<script type="text/javascript">
+
+
+// Mapa base
+	var map = L.map('map').setView([37.8, -96], 4);
+
+	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+		maxZoom: 18,
+		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+			'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+			'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+		id: 'mapbox.light'
+	}).addTo(map);
+
+
+	// control that shows state info on hover
+	var info = L.control();
+
+	info.onAdd = function (map) {
+		this._div = L.DomUtil.create('div', 'info');
+		this.update();
+		return this._div;
+	};
+
+	info.update = function (props) {
+		this._div.innerHTML = '<h4>Sistema Urbano Nacional</h4>' +  (props ?
+			'<b>' + props.name + '</b><br />' + props.Pob_2010 + ' habitantes'
+			: 'Selecciona una ciudad');
+	};
+
+	info.addTo(map);
+
+
+	// Obtener valor de acuerdo a una columna deseada 
+	function getColor(d) {
+		return d > 32000 ? '#fde725' :
+				d > 27000  ? '#5dc962' :
+				d > 22000  ? '#20908d' :
+				d > 17000  ? '#3a528b' :
+				d > 12000   ? '#440154' :
+							'#FFEDA0';
+	}
+
+	function style(feature) {
+		return {
+			weight: 1,
+			opacity: 1,
+			color: 'white',
+			dashArray: '3',
+			fillOpacity: 0.8,
+			fillColor: getColor(feature.properties.buff_m)
+		};
+	}
+
+	function highlightFeature(e) {
+		var layer = e.target;
+
+		layer.setStyle({
+			weight: 5,
+			color: '#666',
+			dashArray: '',
+			fillOpacity: 0.7
+		});
+
+		if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+			layer.bringToFront();
+		}
+
+		info.update(layer.feature.properties);
+	}
+
+	var geojson;
+
+	function resetHighlight(e) {
+		geojson.resetStyle(e.target);
+		info.update();
+	}
+
+	function zoomToFeature(e) {
+		map.fitBounds(e.target.getBounds());
+	}
+
+	function onEachFeature(feature, layer) {
+		layer.on({
+			mouseover: highlightFeature,
+			mouseout: resetHighlight,
+			click: zoomToFeature
+		});
+	}
+
+	geojson = L.geoJson("GeoJson/red_simple.geojson", {
+		style: style,
+		onEachFeature: onEachFeature
+	}).addTo(map);
+
+
+	var legend = L.control({position: 'bottomright'});
+
+	legend.onAdd = function (map) {
+
+		var div = L.DomUtil.create('div', 'info legend'),
+			grades = [0.010,0.019, 029, 0.39, 0.058,0.87],
+			labels = [],
+			from, to;
+
 		for (var i = 0; i < grades.length; i++) {
 			from = grades[i];
 			to = grades[i + 1];
-		labels.push(
-			'<div><i style="background:' + getColor(from + 1) + '"></i> ' +
-			from + (to ? '&ndash;' + to : '+') + "</div>");
-			}
-		div.innerHTML = labels.join('');
-			return div;
-}
-});
-L.legendControl = function(options) {
-	return new L.LegendControl(options);
-};
-L.legendControl({position: 'bottomright'}).addTo(map);
-	  
-  </script>
+
+			labels.push(
+				'<i style="background:' + getColor(from + 1) + '"></i> ' +
+				from + (to ? '&ndash;' + to : '+'));
+		}
+
+		div.innerHTML = labels.join('<br>');
+		return div;
+	};
+
+	legend.addTo(map);
+
+</script>
+
+
+
 </body>
 </html>
