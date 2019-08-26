@@ -159,12 +159,12 @@ $.getJSON("GeoJson/red_simple.geojson", function (data) {
 
 		var div = L.DomUtil.create('div', 'info legend'),
 			grades = [0.010,0.019, 0.029, 0.39, 0.058,0.087],
-			labels = [],
+			labels = ['<strong> Índice de centralidad industrial </strong>'],
 			from, to;
 
 		for (var i = 0; i < grades.length; i++) {
 			from = grades[i];
-			to = grades[i];
+			to = grades[i+1]-1;
 
 			labels.push(
 				'<i style="background:' + getColor(from + 1) + '"></i> ' +
