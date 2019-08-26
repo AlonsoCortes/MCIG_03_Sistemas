@@ -32,13 +32,13 @@
 
 <div id='map'></div>
 
-<script type="text/javascript" src="us-states.js"></script>
+<script src="https://code.jquery.com/jquery-2.2.3.js"></script>
 
 <script type="text/javascript">
 
 
 // Mapa base
-	var map = L.map('map').setView([37.8, -96], 4);
+	var map = L.map('map').setView([23.925007, -101.044332], 5);
 
 	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
 		maxZoom: 18,
@@ -123,12 +123,30 @@
 			click: zoomToFeature
 		});
 	}
-
-	geojson = L.geoJson("GeoJson/red_simple.geojson", {
+// Cargar geoJson
+// Archivo de ciudades del SUN
+	geojson = L.geoJson(null, {
 		style: style,
 		onEachFeature: onEachFeature
 	}).addTo(map);
+	
+	$.getJSON("GeoJson/sun_pol.geojson", function (data) {
+	sun.addData(data)});
+//Archivo de la red
 
+var red_style = {
+    "fillOpacity": 0,
+    "color": "#727272",
+    "weight": .75,
+    "opacity": 1
+};
+
+var red = L.geoJson(null, {
+	style:red_style });
+	
+$.getJSON("GeoJson/red_simple.geojson", function (data) {
+	red.addData(data)});	
+	
 
 	var legend = L.control({position: 'bottomright'});
 
