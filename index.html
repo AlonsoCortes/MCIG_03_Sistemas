@@ -63,9 +63,13 @@
 
 	info.update = function (props) {
 		this._div.innerHTML = '<h4>Sistema Urbano Nacional</h4>' +  (props ?
-			'<b>' + props.NOM_LOC + '</b><br />' + props.Pob_2010 + ' habitantes'+'<br />'
+			'<b>' + props.NOM_LOC + '</b><br />' 
+			 + props.Pob_2010 + ' habitantes'+'<br />'
 			 +'Índice de centralidad industrial: ' + props.degree +'</b><br />'
-			+ 'Índice de cercanía industrial: ' + props.closeness
+			 +'Índice de cercanía industrial: ' + props.closeness +'</b><br />'
+			 +'Industria ligera: ' + props.ind_lig +'</b><br />'
+			 +'Industria media: ' + props.ind_med +'</b><br />'
+			 +'Industria pesada: ' + props.ind_pes +'</b><br />'						     
 			: 'Selecciona una ciudad');
 	};
 
