@@ -162,9 +162,9 @@ $.getJSON("GeoJson/red_simple.geojson", function (data) {
 			labels = [],
 			from, to;
 
-		for (var i = 0.010; i < grades.length; i++) {
+		for (var i = 0; i < grades.length; i++) {
 			from = grades[i];
-			to = grades[i + 1];
+			to = grades[i];
 
 			labels.push(
 				'<i style="background:' + getColor(from + 1) + '"></i> ' +
